@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/listPokemonFragment">
+    <fragment
+        android:id="@+id/detailsPokemonFragment"
+        tools:layout="@layout/fragment_details_pokemon"
+        android:name="com.example.pokedex.ui.activity.details.DetailsPokemonFragment"
+        android:label="DetailsPokemonFragment" >
+        <argument
+            android:name="pokemon"
+            app:argType="com.example.pokedex.data.model.pokemon.PokemonResult" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritePokemonFragment"
+        tools:layout="@layout/fragment_favorite_pokemon"
+        android:name="com.example.pokedex.ui.activity.favorite.FavoritePokemonFragment"
+        android:label="FavoritePokemonFragment" >
+        <action
+            android:id="@+id/action_favoritePokemonFragment_to_detailsPokemonFragment"
+            app:destination="@id/detailsPokemonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listPokemonFragment"
+        tools:layout="@layout/fragment_list_pokemon"
+        android:name="com.example.pokedex.ui.activity.list.ListPokemonFragment"
+        android:label="ListPokemonFragment" >
+        <action
+            android:id="@+id/action_listPokemonFragment_to_detailsPokemonFragment"
+            app:destination="@id/detailsPokemonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchPokemonFragment"
+        tools:layout="@layout/fragment_search_pokemon"
+        android:name="com.example.pokedex.ui.activity.search.SearchPokemonFragment"
+        android:label="SearchPokemonFragment" >
+        <action
+            android:id="@+id/action_searchPokemonFragment_to_detailsPokemonFragment"
+            app:destination="@id/detailsPokemonFragment" />
+    </fragment>
+</navigation>
