@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokedex.R
 import com.example.pokedex.databinding.FragmentListPokemonBinding
 import com.example.pokedex.ui.activity.base.BaseFragment
-import com.example.pokedex.ui.adapters.PokemonAdapter
+import com.example.pokedex.ui.adapters.PokemonResultAdapter
 import com.example.pokedex.ui.state.ResourceState
 import com.example.pokedex.utils.hide
 import com.example.pokedex.utils.show
@@ -26,7 +26,7 @@ import timber.log.Timber
 class ListPokemonFragment : BaseFragment<FragmentListPokemonBinding, ListPokemonViewModel>() {
 
     override val viewModel: ListPokemonViewModel by viewModels()
-    private val pokemonAdapter by lazy { PokemonAdapter() }
+    private val pokemonResultAdapter by lazy { PokemonResultAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +41,7 @@ class ListPokemonFragment : BaseFragment<FragmentListPokemonBinding, ListPokemon
                 is ResourceState.Success -> {
                     resource.data?.let { values ->
                         binding.pgCircular.hide()
-                        pokemonAdapter.pokemons = values.results.toList()
+                        pokemonResultAdapter.pokemons = values.results.toList()
                     }
                 }
                 is ResourceState.Error -> {
@@ -60,7 +60,7 @@ class ListPokemonFragment : BaseFragment<FragmentListPokemonBinding, ListPokemon
     }
 
     private fun clickAdapter() {
-        pokemonAdapter.setOnClickListener { pokemonResult ->
+        pokemonResultAdapter.setOnClickListener { pokemonResult ->
             val action = ListPokemonFragmentDirections
                 .actionListPokemonFragmentToDetailsPokemonFragment(pokemonResult)
             findNavController().navigate(action)
@@ -69,7 +69,7 @@ class ListPokemonFragment : BaseFragment<FragmentListPokemonBinding, ListPokemon
 
     private fun setupRecyclerView() = with(binding) {
         rvPokemon.apply {
-            adapter = pokemonAdapter
+            adapter = pokemonResultAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
         }
     }

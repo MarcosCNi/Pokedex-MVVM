@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokedex.R
 import com.example.pokedex.databinding.FragmentSearchPokemonBinding
 import com.example.pokedex.ui.activity.base.BaseFragment
-import com.example.pokedex.ui.adapters.PokemonAdapter
+import com.example.pokedex.ui.adapters.PokemonResultAdapter
 import com.example.pokedex.ui.state.ResourceState
 import com.example.pokedex.utils.Constants.DEFAULT_QUERY
 import com.example.pokedex.utils.Constants.LAST_SEARCH_QUERY
@@ -29,7 +29,7 @@ import timber.log.Timber
 class SearchPokemonFragment : BaseFragment<FragmentSearchPokemonBinding, SearchPokemonViewModel>() {
 
     override val viewModel: SearchPokemonViewModel by viewModels()
-    private val pokemonAdapter by lazy { PokemonAdapter() }
+    private val pokemonResultAdapter by lazy { PokemonResultAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +47,7 @@ class SearchPokemonFragment : BaseFragment<FragmentSearchPokemonBinding, SearchP
                 is ResourceState.Success -> {
                     binding.pgCircularSearch.hide()
                     result.data.let {
-                        pokemonAdapter.pokemons = it!!.results.toList()
+                        pokemonResultAdapter.pokemons = it!!.results.toList()
                     }
                 }
                 is ResourceState.Error -> {
@@ -104,7 +104,7 @@ class SearchPokemonFragment : BaseFragment<FragmentSearchPokemonBinding, SearchP
     }
 
     private fun clickAdapter() {
-        pokemonAdapter.setOnClickListener { pokemonResult ->
+        pokemonResultAdapter.setOnClickListener { pokemonResult ->
             val action = SearchPokemonFragmentDirections
                 .actionSearchPokemonFragmentToDetailsPokemonFragment(pokemonResult)
             findNavController().navigate(action)
@@ -113,7 +113,7 @@ class SearchPokemonFragment : BaseFragment<FragmentSearchPokemonBinding, SearchP
 
     private fun setupRecyclerView() = with(binding) {
         rvSearchPokemon.apply {
-            adapter = pokemonAdapter
+            adapter = pokemonResultAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
         }
     }

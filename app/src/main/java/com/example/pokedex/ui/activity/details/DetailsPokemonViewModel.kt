@@ -47,4 +47,8 @@ class DetailsPokemonViewModel @Inject constructor(
         }
         return ResourceState.Error(response.message())
     }
+
+    fun insert(pokemonModel: PokemonModel) = viewModelScope.launch {
+        repository.insert(pokemonModel)
+    }
 }

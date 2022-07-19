@@ -20,5 +20,10 @@
     <string name="tv_empty_text">Nada aqui.</string>
     <string name="search_hint">Pesquise um Pokemon</string>
     <string name="an_error_occurred">Ocorreu algum Erro</string>
+    <string name="saved_sucess">Salvo com sucesso!</string>
 
+    <!-- Pokemon Details Tab -->
+    <string name="moves">Movimentos</string>
+    <string name="stats">Status</string>
+    <string name="evolutions">Evoluções</string>
 </resources>

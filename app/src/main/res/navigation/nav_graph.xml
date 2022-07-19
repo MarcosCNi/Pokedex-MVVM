@@ -11,7 +11,14 @@
         android:label="DetailsPokemonFragment" >
         <argument
             android:name="pokemon"
-            app:argType="com.example.pokedex.data.model.pokemon.PokemonResult" />
+            app:argType="com.example.pokedex.data.model.pokemon.PokemonResult"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="pokemonDetail"
+            app:argType="com.example.pokedex.data.model.pokemon.PokemonModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/favoritePokemonFragment"

@@ -9,13 +9,15 @@ import com.bumptech.glide.Glide
 import com.example.pokedex.data.model.pokemon.PokemonModel
 import com.example.pokedex.data.model.pokemon.PokemonResult
 import com.example.pokedex.databinding.ItemPokemonBinding
+import com.example.pokedex.utils.gone
+import com.example.pokedex.utils.show
 import java.util.*
 
-class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
+class PokemonResultAdapter : RecyclerView.Adapter<PokemonResultAdapter.PokemonViewHolder>() {
 
     class PokemonViewHolder(private val binding: ItemPokemonBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun binding(pokemon: PokemonModel) {
+        fun binding(pokemon: PokemonResult) {
             val name = binding.tvNamePokemon
             val num = binding.tvNumPokemon
             pokemon.let{
@@ -24,30 +26,32 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() 
                         Locale.getDefault()
                     ) else name.toString()
                 }
-                num.text = "Nº ${it.id}"
+                val number = it.url
+                    .replace("https://pokeapi.co/api/v2/pokemon/", "")
+                    .replace("/","").toInt()
+                num.text = "Nº $number"
                 Glide.with(binding.itemCard)
-                    .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${it.id}.png")
+                    .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/$number.png")
                     .into(binding.imgPokemon)
             }
         }
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<PokemonModel>() {
+    private val differCallback = object : DiffUtil.ItemCallback<PokemonResult>() {
 
-        override fun areItemsTheSame(oldItem: PokemonModel, newItem: PokemonModel): Boolean {
+        override fun areItemsTheSame(oldItem: PokemonResult, newItem: PokemonResult): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
 
-        override fun areContentsTheSame(oldItem: PokemonModel, newItem: PokemonModel): Boolean {
-            return oldItem.id == newItem.id && oldItem.height == newItem.height && oldItem.moves == newItem.moves
-                    && oldItem.name == newItem.name && oldItem.species == newItem.species && oldItem.stats == newItem.stats
-                    && oldItem.types == newItem.types && oldItem.weight == newItem.weight
+        override fun areContentsTheSame(oldItem: PokemonResult, newItem: PokemonResult): Boolean {
+            return oldItem.url == newItem.url
+                    && oldItem.name == newItem.name
         }
     }
 
     private val differ = AsyncListDiffer(this, differCallback)
 
-    var pokemons: List<PokemonModel>
+    var pokemons: List<PokemonResult>
     get() = differ.currentList
     set(value) = differ.submitList(value)
 
@@ -71,9 +75,9 @@ class PokemonAdapter : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() 
         }
     }
 
-    private var onItemClickListener: ((PokemonModel) -> Unit)? = null
+    private var onItemClickListener: ((PokemonResult) -> Unit)? = null
 
-    fun setOnClickListener(listener: (PokemonModel) -> Unit){
+    fun setOnClickListener(listener: (PokemonResult) -> Unit){
         onItemClickListener = listener
     }
 }
